@@ -31,7 +31,6 @@ module Data.UnionFind.ST
     descriptor, setDescriptor, modifyDescriptor )
 where
 
-import Control.Applicative
 import Control.Monad ( when )
 import Control.Monad.ST
 import Data.STRef
@@ -130,8 +129,8 @@ union' p1 p2 update = do
   point2@(Pt link_ref2) <- repr p2
   -- The precondition ensures that we don't create cyclic structures.
   when (point1 /= point2) $ do
-    Info info_ref1 <- readSTRef link_ref1
-    Info info_ref2 <- readSTRef link_ref2
+    ~(Info info_ref1) <- readSTRef link_ref1
+    ~(Info info_ref2) <- readSTRef link_ref2
     MkInfo w1 d1 <- readSTRef info_ref1 -- d1 is discarded
     MkInfo w2 d2 <- readSTRef info_ref2
     d2' <- update d1 d2
